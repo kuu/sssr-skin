@@ -11,7 +11,8 @@
   ],
   "main": "html5-skin.js",
   "scripts": {
-    "build": "",
+    "start": "gulp",
+    "build": "gulp build",
     "test": "jest"
   },
   "repository": {
