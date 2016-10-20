@@ -115,6 +115,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is Safari or not
   */
   isSafari: function () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/AppleWebKit/) &&
             !window.navigator.userAgent.match(/Chrome/));
   },
@@ -126,6 +129,9 @@ var Utils = {
    * @returns {Boolean} Whether the browser is Chrome or not
    */
   isChrome: function () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/Chrome/) && !!window.navigator.vendor.match(/Google Inc/));
   },
 
@@ -136,6 +142,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is Edge or not
   */
   isEdge: function () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/Edge/));
   },
 
@@ -146,6 +155,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is IE or not
   */
   isIE: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/MSIE/) || !!window.navigator.userAgent.match(/Trident/));
   },
 
@@ -156,6 +168,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is running on Android or not
   */
   isAndroid: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     var os = window.navigator.appVersion;
     return !!os.match(/Android/);
   },
@@ -167,6 +182,9 @@ var Utils = {
   * @returns {Boolean} Whether the device is iOS or not
   */
   isIos: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     var platform = window.navigator.platform;
     return !!(platform.match(/iPhone/) || platform.match(/iPad/) || platform.match(/iPod/));
   },
@@ -178,6 +196,9 @@ var Utils = {
   * @returns {Boolean} Whether the device is an iPhone or not
   */
   isIPhone: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     var platform = window.navigator.platform;
     return !!(platform.match(/iPhone/) || platform.match(/iPod/));
   },
@@ -199,6 +220,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is IE10 or not
   */
   isIE10: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return !!window.navigator.userAgent.match(/MSIE 10/);
   },
 

@@ -14,9 +14,9 @@ var TextEnhancementsTab = React.createClass({
 
   changeTextEnhancement: function(textEnhancement) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('textEnhancement', textEnhancement);
+    this.props.controller().onClosedCaptionChange('textEnhancement', textEnhancement);
     this.setState({
       selectedTextEnhancement: textEnhancement
     });

@@ -5,7 +5,7 @@ var React = require('react'),
 
 var OnOffSwitch = React.createClass({
   handleOnOffSwitch: function() {
-    this.props.controller.toggleClosedCaptionEnabled();
+    this.props.controller().toggleClosedCaptionEnabled();
   },
 
   render: function(){

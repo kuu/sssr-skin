@@ -9,26 +9,26 @@ var CaptionOpacityTab = React.createClass({
 
   changeTextOpacity: function(event) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
     var value = event.target.value;
-    this.props.controller.onClosedCaptionChange('textOpacity', value);
+    this.props.controller().onClosedCaptionChange('textOpacity', value);
   },
 
   changeBackgroundOpacity: function(event) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
     var value = event.target.value;
-    this.props.controller.onClosedCaptionChange('backgroundOpacity', value);
+    this.props.controller().onClosedCaptionChange('backgroundOpacity', value);
   },
 
   changeWindowOpacity: function(event) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
     var value = event.target.value;
-    this.props.controller.onClosedCaptionChange('windowOpacity', value);
+    this.props.controller().onClosedCaptionChange('windowOpacity', value);
   },
 
   percentString: function(number) {

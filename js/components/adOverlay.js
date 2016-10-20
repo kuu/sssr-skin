@@ -8,17 +8,17 @@ var React = require('react'),
 
 var AdOverlay = React.createClass({
   closeOverlay: function() {
-    this.props.controller.closeNonlinearAd();
-    this.props.controller.onSkipAdClicked();
+    this.props.controller().closeNonlinearAd();
+    this.props.controller().onSkipAdClicked();
   },
 
   handleOverlayClick: function() {
-    this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.OVERLAY);
+    this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.OVERLAY);
   },
 
   overlayLoaded: function() {
     if (this.props.overlay && this.props.showOverlay){
-      this.props.controller.onAdOverlayLoaded();
+      this.props.controller().onAdOverlayLoaded();
     }
   },
 

@@ -11,10 +11,10 @@ var ContentScreen = React.createClass({
   handleClose: function() {
     switch(this.props.screen) {
       case CONSTANTS.SCREEN.DISCOVERY_SCREEN:
-        this.props.controller.toggleDiscoveryScreen();
+        this.props.controller().toggleDiscoveryScreen();
         break;
       default:
-        this.props.controller.toggleScreen(this.props.screen);
+        this.props.controller().toggleScreen(this.props.screen);
     }
   },
 

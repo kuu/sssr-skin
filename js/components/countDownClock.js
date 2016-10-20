@@ -20,9 +20,9 @@ var CountDownClock = React.createClass({
     this.interval = null;
     var tmpFraction = 0;
     var tmpRemainSeconds = 0;
-    var upNextTimeToShow = parseInt(this.props.controller.state.upNextInfo.timeToShow);
+    var upNextTimeToShow = parseInt(this.props.controller().state.upNextInfo.timeToShow);
 
-    if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
+    if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
       tmpFraction = 2 / this.props.timeToShow;
       tmpRemainSeconds = this.props.timeToShow;
     }
@@ -44,7 +44,7 @@ var CountDownClock = React.createClass({
       //since mobile would fire both click and touched events,
       //we need to make sure only one actually does the work
 
-      if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
+      if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
         this.setState({hideClock: true});
         clearInterval(this.interval);
       }
@@ -88,7 +88,7 @@ var CountDownClock = React.createClass({
   },
 
   updateClockSize: function(){
-    if (this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN){
+    if (this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN){
       var clockWidth = 75;
     }
     else {
@@ -104,7 +104,7 @@ var CountDownClock = React.createClass({
     var decimals;
     var percent = this.state.fraction * this.state.remainSeconds + 1.5;
     this.context.fillStyle = 'white';
-    if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
+    if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
       this.context.fillText(this.state.remainSeconds.toFixed(decimals), this.state.clockContainerWidth / 2, this.state.clockRadius, 100);
     }
     this.context.beginPath();
@@ -118,7 +118,7 @@ var CountDownClock = React.createClass({
   },
 
   tick: function() {
-    if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
+    if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
       if(this.state.remainSeconds < 1) {
         this.setState({remainSeconds: 0});
         clearInterval(this.interval);
@@ -129,7 +129,7 @@ var CountDownClock = React.createClass({
         this.updateCanvas();
       }
     }
-    else if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
+    else if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
       if (this.state.remainSeconds < 1 || this.props.playerState === CONSTANTS.STATE.END) {
         this.setState({remainSeconds: 0});
         clearInterval(this.interval);
@@ -158,7 +158,7 @@ var CountDownClock = React.createClass({
           "clickedVideo" : this.props.discoveryData.relatedVideos[0],
           "custom" : this.props.discoveryData.custom
         };
-    this.props.controller.sendDiscoveryClickEvent(eventData, false);
+    this.props.controller().sendDiscoveryClickEvent(eventData, false);
   },
 
   startUpNextVideo: function() {
@@ -167,14 +167,14 @@ var CountDownClock = React.createClass({
       "clickedVideo" : this.props.upNextInfo.upNextData,
       "custom" : {"source": CONSTANTS.SCREEN.UP_NEXT_SCREEN}
     };
-    this.props.controller.sendDiscoveryClickEvent(eventData, true);
+    this.props.controller().sendDiscoveryClickEvent(eventData, true);
   },
 
   render: function() {
     var canvasClassName = ClassNames({
       'oo-countdown-clock': true,
-      'oo-up-next-count-down': this.props.controller.state.screenToShow !== CONSTANTS.SCREEN.DISCOVERY_SCREEN,
-      'oo-discovery-count-down': this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN,
+      'oo-up-next-count-down': this.props.controller().state.screenToShow !== CONSTANTS.SCREEN.DISCOVERY_SCREEN,
+      'oo-discovery-count-down': this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN,
       'oo-hidden': this.state.hideClock
     });
 

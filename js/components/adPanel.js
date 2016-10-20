@@ -26,16 +26,16 @@ var AdPanelTopBarItem = React.createClass({
 
 var AdPanel = React.createClass({
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     return null;
   },
 
   handleSkipAdButtonClick: function() {
-    this.props.controller.onSkipAdClicked();
+    this.props.controller().onSkipAdClicked();
   },
 
   handleLearnMoreButtonClick: function() {
-    this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.LEARN_MORE_BUTTON);
+    this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.LEARN_MORE_BUTTON);
   },
 
   handleAdTopBarClick: function(event){
@@ -126,7 +126,7 @@ var AdPanel = React.createClass({
 
   render: function() {
     var spinner = null;
-    if (this.props.controller.state.buffering === true) {
+    if (this.props.controller().state.buffering === true) {
       spinner = <Spinner loadingImage={this.props.skinConfig.general.loadingImage.imageResource.url}/>;
     }
     var adTopBarItems = this.populateAdTopBar();

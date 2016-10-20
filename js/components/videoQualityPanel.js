@@ -20,7 +20,7 @@ var VideoQualityPanel = React.createClass({
     var eventData = {
       "id": selectedBitrateId
     };
-    this.props.controller.sendVideoQualityChangeEvent(eventData);
+    this.props.controller().sendVideoQualityChangeEvent(eventData);
     this.setState({
       selected: selectedBitrateId
     });
@@ -71,7 +71,7 @@ var VideoQualityPanel = React.createClass({
       'oo-content-panel': !this.props.popover,
       'oo-quality-panel': !this.props.popover,
       'oo-quality-popover': this.props.popover,
-      'oo-mobile-fullscreen': !this.props.popover && this.props.controller.state.isMobile && (this.props.controller.state.fullscreen || this.props.controller.state.isFullWindow)
+      'oo-mobile-fullscreen': !this.props.popover && this.props.controller().state.isMobile && (this.props.controller().state.fullscreen || this.props.controller().state.isFullWindow)
     });
 
     return (

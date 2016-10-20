@@ -129,7 +129,8 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       "isFullScreenSupported": false,
       "isVideoFullScreenSupported": false,
       "isFullWindow": false,
-      "autoPauseDisabled": false
+      "autoPauseDisabled": false,
+      "serverSideRendered": false
     };
 
     this.init();
@@ -223,6 +224,31 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.state.mainVideoInnerWrapper.addClass('oo-player');
       this.state.mainVideoInnerWrapper.append("<div class='oo-player-skin'></div>");
 
+      // Append elements rendered on server-side
+      if ('content' in document.createElement('template')) {
+        var container = document.querySelector("#" + this.state.elementId + " .oo-player-skin");
+        var template = document.querySelector('#server-rendered');
+        if (template) {
+          var clone = document.importNode(template.content, true);
+          // Dirty hacks
+          function updateReactId(parent, baseId) {
+            var children = parent.children;
+            for (var i = 0; i < children.length; i++) {
+              var child = children[i];
+              var reactId = baseId + '.' + i;
+              child.setAttribute('data-reactid', reactId);
+              updateReactId(child, reactId);
+            }
+          }
+          var top = clone.querySelector('#oo-responsive');
+          top.setAttribute('data-reactid', '.0');
+          top.setAttribute('data-react-checksum', '752556476');
+          updateReactId(top, '.0')
+          container.appendChild(clone);
+          this.state.serverSideRendered = true;
+        }
+      }
+
       // Would be a good idea to also (or only) wait for skin metadata to load. Load metadata here
       if (global.serverData && serverData.skinConfig) {
         this.onSkinConfigLoaded(settings, serverData.skinConfig);
@@ -256,12 +282,16 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
       this.state.config = data;
 
+      var self = this;
       this.skin = ReactDOM.render(
-        React.createElement(Skin, {skinConfig: data, localizableStrings: tmpLocalizableStrings, language: Utils.getLanguageToUse(data), controller: this, closedCaptionOptions: this.state.closedCaptionOptions, pauseAnimationDisabled: this.state.pauseAnimationDisabled}), document.querySelector("#" + this.state.elementId + " .oo-player-skin")
+        React.createElement(Skin, {skinConfig: data, localizableStrings: tmpLocalizableStrings, language: Utils.getLanguageToUse(data), controller: function () {return self;}, closedCaptionOptions: this.state.closedCaptionOptions, pauseAnimationDisabled: this.state.pauseAnimationDisabled}), document.querySelector("#" + this.state.elementId + " .oo-player-skin")
       );
       var accessibilityControls = new AccessibilityControls(this); //keyboard support
       this.state.configLoaded = true;
       this.renderSkin();
+      if (this.state.serverSideRendered) {
+        this.state.configLoaded = false;
+      }
 
       var fullClass = (this.state.config.adScreen.showControlBar ? "" : " oo-full");
       $("#" + this.state.elementId + " .oo-player-skin").append("<div class='oo-player-skin-plugins"+fullClass+"'></div><div class='oo-player-skin-plugins-click-layer"+fullClass+"'></div>");

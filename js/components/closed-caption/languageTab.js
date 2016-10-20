@@ -17,10 +17,10 @@ var LanguageTab = React.createClass({
     }
 
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
 
-    this.props.controller.onClosedCaptionChange('language', invertedLocale[language]);
+    this.props.controller().onClosedCaptionChange('language', invertedLocale[language]);
     this.setState({
       selectedLanguage: language
     });

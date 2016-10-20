@@ -14,7 +14,7 @@ var AdScreen = React.createClass({
   mixins: [ResizeMixin],
 
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     return {
       controlBarVisible: true,
       timer: null
@@ -24,7 +24,7 @@ var AdScreen = React.createClass({
   componentDidMount: function () {
     //for mobile or desktop fullscreen, hide control bar after 3 seconds
     if (this.isMobile || this.props.fullscreen) {
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -39,22 +39,22 @@ var AdScreen = React.createClass({
       }
 
       if(!this.props.fullscreen && nextProps.fullscreen && this.state.playerState != CONSTANTS.STATE.PAUSE) {
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
       if(this.props.fullscreen && !nextProps.fullscreen && this.isMobile) {
         this.showControlBar();
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
     }
   },
 
   componentWillUnmount: function () {
-    this.props.controller.cancelTimer();
+    this.props.controller().cancelTimer();
   },
 
   handleResize: function() {
     if (this.isMounted()) {
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -62,9 +62,9 @@ var AdScreen = React.createClass({
     event.stopPropagation(); // W3C
     event.cancelBubble = true; // IE
 
-    this.props.controller.state.accessibilityControlsEnabled = true;
+    this.props.controller().state.accessibilityControlsEnabled = true;
     if ((event.type == 'click' || !this.isMobile) && !this.props.skinConfig.adScreen.showAdMarquee) {
-      this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
+      this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
     }
   },
 
@@ -76,25 +76,25 @@ var AdScreen = React.createClass({
       //since after exiting the full screen, iPhone pauses the video and places an overlay play button in the middle
       //of the screen (which we can't remove), clicking the screen would start the video.
       if (Utils.isIPhone() && this.state.playerState == CONSTANTS.STATE.PAUSE) {
-        this.props.controller.togglePlayPause();
+        this.props.controller().togglePlayPause();
       }
       else {
         event.stopPropagation(); // W3C
         event.cancelBubble = true; // IE
-        this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
+        this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
       }
     }
   },
 
   showControlBar: function() {
     this.setState({controlBarVisible: true});
-    this.props.controller.showControlBar();
+    this.props.controller().showControlBar();
   },
 
   hideControlBar: function(event) {
     if (this.props.controlBarAutoHide == true && !(this.isMobile && event)) {
       this.setState({controlBarVisible: false});
-      this.props.controller.hideControlBar();
+      this.props.controller().hideControlBar();
     }
   },
 
@@ -104,7 +104,7 @@ var AdScreen = React.createClass({
       this.showControlBar();
       // Do not start the process to hide the control bar unless we are leaving pause state.
       if (this.props.playerState == CONSTANTS.STATE.PAUSE) {
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
     }
     // Even if our action was to start showing the control bar, we should still handle
@@ -115,16 +115,16 @@ var AdScreen = React.createClass({
   handlePlayerMouseMove: function() {
     if(this.props.playerState !== CONSTANTS.STATE.PAUSE && !this.isMobile && this.props.fullscreen) {
       this.showControlBar();
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
   getPlaybackControlItems: function() {
-    if (!this.props.controller.state.showAdControls) return null;
+    if (!this.props.controller().state.showAdControls) return null;
 
     var showControlBar =
       this.props.playerState == CONSTANTS.STATE.PAUSE ||
-      this.props.controller.state.forceControlBarVisible ||
+      this.props.controller().state.forceControlBarVisible ||
       this.state.controlBarVisible;
 
     var playbackControlItemTemplates = {
@@ -150,9 +150,9 @@ var AdScreen = React.createClass({
       opacity: this.props.skinConfig.pauseScreen.PauseIconStyle.opacity
     };
     var actionIconClass = ClassNames({
-      'oo-action-icon-pause': !this.props.controller.state.adPauseAnimationDisabled,
-      'oo-action-icon': this.props.controller.state.adPauseAnimationDisabled,
-      'oo-animate-pause': !this.props.controller.state.adPauseAnimationDisabled,
+      'oo-action-icon-pause': !this.props.controller().state.adPauseAnimationDisabled,
+      'oo-action-icon': this.props.controller().state.adPauseAnimationDisabled,
+      'oo-animate-pause': !this.props.controller().state.adPauseAnimationDisabled,
       'oo-action-icon-top': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("top") > -1,
       'oo-action-icon-bottom': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("bottom") > -1,
       'oo-action-icon-left': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("left") > -1,
@@ -161,7 +161,7 @@ var AdScreen = React.createClass({
       'oo-icon-hidden': this.props.playerState != CONSTANTS.STATE.PAUSE
     });
     var adPanel = null;
-    if (this.props.skinConfig.adScreen.showAdMarquee && this.props.controller.state.showAdMarquee) {
+    if (this.props.skinConfig.adScreen.showAdMarquee && this.props.controller().state.showAdMarquee) {
       adPanel = <AdPanel {...this.props} />;
     }
     var playbackControlItems = null;

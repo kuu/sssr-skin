@@ -85,17 +85,17 @@ var React = require('react'),
 
 var AdOverlay = React.createClass({displayName: "AdOverlay",
   closeOverlay: function() {
-    this.props.controller.closeNonlinearAd();
-    this.props.controller.onSkipAdClicked();
+    this.props.controller().closeNonlinearAd();
+    this.props.controller().onSkipAdClicked();
   },
 
   handleOverlayClick: function() {
-    this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.OVERLAY);
+    this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.OVERLAY);
   },
 
   overlayLoaded: function() {
     if (this.props.overlay && this.props.showOverlay){
-      this.props.controller.onAdOverlayLoaded();
+      this.props.controller().onAdOverlayLoaded();
     }
   },
 
@@ -154,16 +154,16 @@ var AdPanelTopBarItem = React.createClass({displayName: "AdPanelTopBarItem",
 
 var AdPanel = React.createClass({displayName: "AdPanel",
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     return null;
   },
 
   handleSkipAdButtonClick: function() {
-    this.props.controller.onSkipAdClicked();
+    this.props.controller().onSkipAdClicked();
   },
 
   handleLearnMoreButtonClick: function() {
-    this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.LEARN_MORE_BUTTON);
+    this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.LEARN_MORE_BUTTON);
   },
 
   handleAdTopBarClick: function(event){
@@ -254,7 +254,7 @@ var AdPanel = React.createClass({displayName: "AdPanel",
 
   render: function() {
     var spinner = null;
-    if (this.props.controller.state.buffering === true) {
+    if (this.props.controller().state.buffering === true) {
       spinner = React.createElement(Spinner, {loadingImage: this.props.skinConfig.general.loadingImage.imageResource.url});
     }
     var adTopBarItems = this.populateAdTopBar();
@@ -327,26 +327,26 @@ var CaptionOpacityTab = React.createClass({displayName: "CaptionOpacityTab",
 
   changeTextOpacity: function(event) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
     var value = event.target.value;
-    this.props.controller.onClosedCaptionChange('textOpacity', value);
+    this.props.controller().onClosedCaptionChange('textOpacity', value);
   },
 
   changeBackgroundOpacity: function(event) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
     var value = event.target.value;
-    this.props.controller.onClosedCaptionChange('backgroundOpacity', value);
+    this.props.controller().onClosedCaptionChange('backgroundOpacity', value);
   },
 
   changeWindowOpacity: function(event) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
     var value = event.target.value;
-    this.props.controller.onClosedCaptionChange('windowOpacity', value);
+    this.props.controller().onClosedCaptionChange('windowOpacity', value);
   },
 
   percentString: function(number) {
@@ -532,7 +532,7 @@ var React = require('react'),
 var ClosedCaptionPopover = React.createClass({displayName: "ClosedCaptionPopover",
 
   handleMoreCaptions: function() {
-    this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
+    this.props.controller().toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
     this.handleClose();
   },
 
@@ -583,9 +583,9 @@ var ColorSelectionTab = React.createClass({displayName: "ColorSelectionTab",
 
   changeTextColor: function(color){
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('textColor', color);
+    this.props.controller().onClosedCaptionChange('textColor', color);
     this.setState({
       selectedTextColor: color
     });
@@ -593,9 +593,9 @@ var ColorSelectionTab = React.createClass({displayName: "ColorSelectionTab",
 
   changeWindowColor: function(color){
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('windowColor', color);
+    this.props.controller().onClosedCaptionChange('windowColor', color);
     this.setState({
       selectedWindowColor: color
     });
@@ -603,9 +603,9 @@ var ColorSelectionTab = React.createClass({displayName: "ColorSelectionTab",
 
   changeBackgroundColor: function(color){
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('backgroundColor', color);
+    this.props.controller().onClosedCaptionChange('backgroundColor', color);
     this.setState({
       selectedBackgroundColor: color
     });
@@ -700,9 +700,9 @@ var FontSizeTab = React.createClass({displayName: "FontSizeTab",
 
   changeFontSize: function(fontSize) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('fontSize', fontSize);
+    this.props.controller().onClosedCaptionChange('fontSize', fontSize);
     this.setState({
       selectedFontSize: fontSize
     });
@@ -773,9 +773,9 @@ var FontTypeTab = React.createClass({displayName: "FontTypeTab",
 
   changeFontType: function(fontType) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('fontType', fontType);
+    this.props.controller().onClosedCaptionChange('fontType', fontType);
     this.setState({
       selectedFontType: fontType
     });
@@ -834,10 +834,10 @@ var LanguageTab = React.createClass({displayName: "LanguageTab",
     }
 
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
 
-    this.props.controller.onClosedCaptionChange('language', invertedLocale[language]);
+    this.props.controller().onClosedCaptionChange('language', invertedLocale[language]);
     this.setState({
       selectedLanguage: language
     });
@@ -884,7 +884,7 @@ var React = require('react'),
 
 var OnOffSwitch = React.createClass({displayName: "OnOffSwitch",
   handleOnOffSwitch: function() {
-    this.props.controller.toggleClosedCaptionEnabled();
+    this.props.controller().toggleClosedCaptionEnabled();
   },
 
   render: function(){
@@ -964,9 +964,9 @@ var TextEnhancementsTab = React.createClass({displayName: "TextEnhancementsTab",
 
   changeTextEnhancement: function(textEnhancement) {
     if (!this.props.closedCaptionOptions.enabled) {
-      this.props.controller.toggleClosedCaptionEnabled();
+      this.props.controller().toggleClosedCaptionEnabled();
     }
-    this.props.controller.onClosedCaptionChange('textEnhancement', textEnhancement);
+    this.props.controller().onClosedCaptionChange('textEnhancement', textEnhancement);
     this.setState({
       selectedTextEnhancement: textEnhancement
     });
@@ -1079,7 +1079,7 @@ var React = require('react'),
 
 var ControlBar = React.createClass({displayName: "ControlBar",
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     this.responsiveUIMultiple = this.getResponsiveUIMultiple(this.props.responsiveView);
     this.volumeSliderValue = 0;
     this.moreOptionsItems = null;
@@ -1101,10 +1101,10 @@ var ControlBar = React.createClass({displayName: "ControlBar",
   },
 
   componentWillUnmount: function () {
-    this.props.controller.cancelTimer();
+    this.props.controller().cancelTimer();
     this.closePopovers();
     if (Utils.isAndroid()){
-      this.props.controller.hideVolumeSliderBar();
+      this.props.controller().hideVolumeSliderBar();
     }
     window.removeEventListener('orientationchange', this.closePopovers);
   },
@@ -1118,8 +1118,8 @@ var ControlBar = React.createClass({displayName: "ControlBar",
     if (evt.type == 'touchend' || !this.isMobile){
       evt.stopPropagation(); // W3C
       evt.cancelBubble = true; // IE
-      this.props.controller.state.accessibilityControlsEnabled = true;
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().state.accessibilityControlsEnabled = true;
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -1130,45 +1130,45 @@ var ControlBar = React.createClass({displayName: "ControlBar",
     evt.stopPropagation();
     evt.cancelBubble = true;
     evt.preventDefault();
-    this.props.controller.toggleFullscreen();
+    this.props.controller().toggleFullscreen();
   },
 
   handleLiveClick: function(evt) {
     evt.stopPropagation();
     evt.cancelBubble = true;
     evt.preventDefault();
-    this.props.controller.onLiveClick();
-    this.props.controller.seek(this.props.duration);
+    this.props.controller().onLiveClick();
+    this.props.controller().seek(this.props.duration);
   },
 
   handleVolumeIconClick: function(evt) {
     if (this.isMobile){
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
       evt.stopPropagation(); // W3C
       evt.cancelBubble = true; // IE
-      if (!this.props.controller.state.volumeState.volumeSliderVisible){
-        this.props.controller.showVolumeSliderBar();
+      if (!this.props.controller().state.volumeState.volumeSliderVisible){
+        this.props.controller().showVolumeSliderBar();
       }
       else {
-        this.props.controller.handleMuteClick();
+        this.props.controller().handleMuteClick();
       }
     }
     else{
-      this.props.controller.handleMuteClick();
+      this.props.controller().handleMuteClick();
     }
   },
 
   handlePlayClick: function() {
-    this.props.controller.togglePlayPause();
+    this.props.controller().togglePlayPause();
   },
 
   handleShareClick: function() {
-    this.props.controller.toggleShareScreen();
+    this.props.controller().toggleShareScreen();
   },
 
   handleQualityClick: function() {
     if(this.props.responsiveView == this.props.skinConfig.responsive.breakpoints.xs.id) {
-      this.props.controller.toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
+      this.props.controller().toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
     } else {
       this.toggleQualityPopover();
       this.closeCaptionPopover();
@@ -1176,21 +1176,21 @@ var ControlBar = React.createClass({displayName: "ControlBar",
   },
 
   toggleQualityPopover: function() {
-    this.props.controller.toggleVideoQualityPopOver();
+    this.props.controller().toggleVideoQualityPopOver();
   },
 
   closeQualityPopover: function() {
-    if(this.props.controller.state.videoQualityOptions.showVideoQualityPopover == true) {
+    if(this.props.controller().state.videoQualityOptions.showVideoQualityPopover == true) {
       this.toggleQualityPopover();
     }
   },
 
   toggleCaptionPopover: function() {
-    this.props.controller.toggleClosedCaptionPopOver();
+    this.props.controller().toggleClosedCaptionPopOver();
   },
 
   closeCaptionPopover: function() {
-    if(this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover == true) {
+    if(this.props.controller().state.closedCaptionOptions.showClosedCaptionPopover == true) {
       this.toggleCaptionPopover();
     }
   },
@@ -1203,20 +1203,20 @@ var ControlBar = React.createClass({displayName: "ControlBar",
   handleVolumeClick: function(evt) {
     evt.preventDefault();
     var newVolume = parseFloat(evt.target.dataset.volume);
-    this.props.controller.setVolume(newVolume);
+    this.props.controller().setVolume(newVolume);
   },
 
   handleDiscoveryClick: function() {
-    this.props.controller.toggleDiscoveryScreen();
+    this.props.controller().toggleDiscoveryScreen();
   },
 
   handleMoreOptionsClick: function() {
-    this.props.controller.toggleMoreOptionsScreen(this.moreOptionsItems);
+    this.props.controller().toggleMoreOptionsScreen(this.moreOptionsItems);
   },
 
   handleClosedCaptionClick: function() {
     if(this.props.responsiveView == this.props.skinConfig.responsive.breakpoints.xs.id) {
-      this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
+      this.props.controller().toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
     } else {
       this.toggleCaptionPopover();
       this.closeQualityPopover();
@@ -1246,7 +1246,7 @@ var ControlBar = React.createClass({displayName: "ControlBar",
 
   changeVolumeSlider: function(event) {
     var newVolume = parseFloat(event.target.value);
-    this.props.controller.setVolume(newVolume);
+    this.props.controller().setVolume(newVolume);
     this.setState({
       volumeSliderValue: event.target.value
     });
@@ -1263,10 +1263,10 @@ var ControlBar = React.createClass({displayName: "ControlBar",
       playIcon = "play";
     }
 
-    var volumeIcon = (this.props.controller.state.volumeState.muted ? "volumeOff" : "volume");
+    var volumeIcon = (this.props.controller().state.volumeState.muted ? "volumeOff" : "volume");
 
     var fullscreenIcon = "";
-    if (this.props.controller.state.fullscreen) {
+    if (this.props.controller().state.fullscreen) {
       fullscreenIcon = "compress"
     }
     else {
@@ -1284,7 +1284,7 @@ var ControlBar = React.createClass({displayName: "ControlBar",
     var volumeBars = [];
     for (var i=0; i<10; i++) {
       //create each volume tick separately
-      var turnedOn = this.props.controller.state.volumeState.volume >= (i+1) / 10;
+      var turnedOn = this.props.controller().state.volumeState.volume >= (i+1) / 10;
       var volumeClass = ClassNames({
         "oo-volume-bar": true,
         "oo-on": turnedOn
@@ -1295,7 +1295,7 @@ var ControlBar = React.createClass({displayName: "ControlBar",
         onClick: this.handleVolumeClick}));
     }
 
-    var volumeSlider = React.createElement("div", {className: "oo-volume-slider"}, React.createElement(Slider, {value: parseFloat(this.props.controller.state.volumeState.volume), 
+    var volumeSlider = React.createElement("div", {className: "oo-volume-slider"}, React.createElement(Slider, {value: parseFloat(this.props.controller().state.volumeState.volume), 
                         onChange: this.changeVolumeSlider, 
                         className: "oo-slider oo-slider-volume", 
                         itemRef: "volumeSlider", 
@@ -1308,7 +1308,7 @@ var ControlBar = React.createClass({displayName: "ControlBar",
       volumeControls = volumeBars;
     }
     else {
-      volumeControls = this.props.controller.state.volumeState.volumeSliderVisible ? volumeSlider : null;
+      volumeControls = this.props.controller().state.volumeState.volumeSliderVisible ? volumeSlider : null;
     }
 
     var playheadTime = isFinite(parseInt(this.props.currentPlayhead)) ? Utils.formatSeconds(parseInt(this.props.currentPlayhead)) : null;
@@ -1329,19 +1329,19 @@ var ControlBar = React.createClass({displayName: "ControlBar",
         "oo-live-nonclickable": isLiveNow
       });
 
-    var videoQualityPopover = this.props.controller.state.videoQualityOptions.showVideoQualityPopover ? React.createElement(Popover, null, React.createElement(VideoQualityPanel, React.__spread({}, this.props, {togglePopoverAction: this.toggleQualityPopover, popover: true}))) : null;
-    var closedCaptionPopover = this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover ? React.createElement(Popover, {popoverClassName: "oo-popover oo-popover-pull-right"}, React.createElement(ClosedCaptionPopover, React.__spread({},  this.props, {togglePopoverAction: this.toggleCaptionPopover}))) : null;
+    var videoQualityPopover = this.props.controller().state.videoQualityOptions.showVideoQualityPopover ? React.createElement(Popover, null, React.createElement(VideoQualityPanel, React.__spread({}, this.props, {togglePopoverAction: this.toggleQualityPopover, popover: true}))) : null;
+    var closedCaptionPopover = this.props.controller().state.closedCaptionOptions.showClosedCaptionPopover ? React.createElement(Popover, {popoverClassName: "oo-popover oo-popover-pull-right"}, React.createElement(ClosedCaptionPopover, React.__spread({},  this.props, {togglePopoverAction: this.toggleCaptionPopover}))) : null;
 
     var qualityClass = ClassNames({
       "oo-quality": true,
       "oo-control-bar-item": true,
-      "oo-selected": this.props.controller.state.videoQualityOptions.showVideoQualityPopover
+      "oo-selected": this.props.controller().state.videoQualityOptions.showVideoQualityPopover
     });
 
     var captionClass = ClassNames({
       "oo-closed-caption": true,
       "oo-control-bar-item": true,
-      "oo-selected": this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover
+      "oo-selected": this.props.controller().state.closedCaptionOptions.showClosedCaptionPopover
     });
 
     var controlItemTemplates = {
@@ -1424,7 +1424,7 @@ var ControlBar = React.createClass({displayName: "ControlBar",
     };
 
     var controlBarItems = [];
-    var defaultItems = this.props.controller.state.isPlayingAd ? this.props.skinConfig.buttons.desktopAd : this.props.skinConfig.buttons.desktopContent;
+    var defaultItems = this.props.controller().state.isPlayingAd ? this.props.skinConfig.buttons.desktopAd : this.props.skinConfig.buttons.desktopContent;
 
     //if mobile and not showing the slider or the icon, extra space can be added to control bar width. If volume bar is shown instead of slider, add some space as well:
     var volumeItem = null;
@@ -1434,7 +1434,7 @@ var ControlBar = React.createClass({displayName: "ControlBar",
       if (defaultItems[j].name == "volume") {
         volumeItem = defaultItems[j];
 
-        var extraSpaceVolumeSlider = (((volumeItem && this.isMobile && !this.props.controller.state.volumeState.volumeSliderVisible) || volumeItem && Utils.isIos()) ? parseInt(volumeItem.minWidth) : 0);
+        var extraSpaceVolumeSlider = (((volumeItem && this.isMobile && !this.props.controller().state.volumeState.volumeSliderVisible) || volumeItem && Utils.isIos()) ? parseInt(volumeItem.minWidth) : 0);
         var extraSpaceVolumeBar = this.isMobile ? 0 : parseInt(volumeItem.minWidth)/2;
         extraSpaceVolume = extraSpaceVolumeSlider + extraSpaceVolumeBar;
 
@@ -1457,17 +1457,17 @@ var ControlBar = React.createClass({displayName: "ControlBar",
       }
 
       //do not show CC button if no CC available
-      if (!this.props.controller.state.closedCaptionOptions.availableLanguages && (defaultItems[k].name === "closedCaption")){
+      if (!this.props.controller().state.closedCaptionOptions.availableLanguages && (defaultItems[k].name === "closedCaption")){
         continue;
       }
 
       //do not show quality button if no bitrates available
-      if (!this.props.controller.state.videoQualityOptions.availableBitrates && (defaultItems[k].name === "quality")){
+      if (!this.props.controller().state.videoQualityOptions.availableBitrates && (defaultItems[k].name === "quality")){
         continue;
       }
 
       //do not show discovery button if no related videos available
-      if (!this.props.controller.state.discoveryData && (defaultItems[k].name === "discovery")){
+      if (!this.props.controller().state.discoveryData && (defaultItems[k].name === "discovery")){
         continue;
       }
 
@@ -1584,9 +1584,9 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
     this.interval = null;
     var tmpFraction = 0;
     var tmpRemainSeconds = 0;
-    var upNextTimeToShow = parseInt(this.props.controller.state.upNextInfo.timeToShow);
+    var upNextTimeToShow = parseInt(this.props.controller().state.upNextInfo.timeToShow);
 
-    if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
+    if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
       tmpFraction = 2 / this.props.timeToShow;
       tmpRemainSeconds = this.props.timeToShow;
     }
@@ -1608,7 +1608,7 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
       //since mobile would fire both click and touched events,
       //we need to make sure only one actually does the work
 
-      if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
+      if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
         this.setState({hideClock: true});
         clearInterval(this.interval);
       }
@@ -1652,7 +1652,7 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
   },
 
   updateClockSize: function(){
-    if (this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN){
+    if (this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN){
       var clockWidth = 75;
     }
     else {
@@ -1668,7 +1668,7 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
     var decimals;
     var percent = this.state.fraction * this.state.remainSeconds + 1.5;
     this.context.fillStyle = 'white';
-    if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
+    if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
       this.context.fillText(this.state.remainSeconds.toFixed(decimals), this.state.clockContainerWidth / 2, this.state.clockRadius, 100);
     }
     this.context.beginPath();
@@ -1682,7 +1682,7 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
   },
 
   tick: function() {
-    if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
+    if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN) {
       if(this.state.remainSeconds < 1) {
         this.setState({remainSeconds: 0});
         clearInterval(this.interval);
@@ -1693,7 +1693,7 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
         this.updateCanvas();
       }
     }
-    else if(this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller.state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
+    else if(this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PLAYING_SCREEN || this.props.controller().state.screenToShow === CONSTANTS.SCREEN.PAUSE_SCREEN) {
       if (this.state.remainSeconds < 1 || this.props.playerState === CONSTANTS.STATE.END) {
         this.setState({remainSeconds: 0});
         clearInterval(this.interval);
@@ -1722,7 +1722,7 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
           "clickedVideo" : this.props.discoveryData.relatedVideos[0],
           "custom" : this.props.discoveryData.custom
         };
-    this.props.controller.sendDiscoveryClickEvent(eventData, false);
+    this.props.controller().sendDiscoveryClickEvent(eventData, false);
   },
 
   startUpNextVideo: function() {
@@ -1731,14 +1731,14 @@ var CountDownClock = React.createClass({displayName: "CountDownClock",
       "clickedVideo" : this.props.upNextInfo.upNextData,
       "custom" : {"source": CONSTANTS.SCREEN.UP_NEXT_SCREEN}
     };
-    this.props.controller.sendDiscoveryClickEvent(eventData, true);
+    this.props.controller().sendDiscoveryClickEvent(eventData, true);
   },
 
   render: function() {
     var canvasClassName = ClassNames({
       'oo-countdown-clock': true,
-      'oo-up-next-count-down': this.props.controller.state.screenToShow !== CONSTANTS.SCREEN.DISCOVERY_SCREEN,
-      'oo-discovery-count-down': this.props.controller.state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN,
+      'oo-up-next-count-down': this.props.controller().state.screenToShow !== CONSTANTS.SCREEN.DISCOVERY_SCREEN,
+      'oo-discovery-count-down': this.props.controller().state.screenToShow === CONSTANTS.SCREEN.DISCOVERY_SCREEN,
       'oo-hidden': this.state.hideClock
     });
 
@@ -2001,7 +2001,7 @@ var DiscoveryPanel = React.createClass({displayName: "DiscoveryPanel",
     };
     // TODO: figure out countdown value
     // eventData.custom.countdown = 0;
-    this.props.controller.sendDiscoveryClickEvent(eventData, false);
+    this.props.controller().sendDiscoveryClickEvent(eventData, false);
   },
 
   shouldShowCountdownTimer: function() {
@@ -2274,19 +2274,19 @@ var MoreOptionsPanel = React.createClass({displayName: "MoreOptionsPanel",
   mixins: [AnimateMixin],
 
   handleShareClick: function () {
-    this.props.controller.toggleShareScreen();
+    this.props.controller().toggleShareScreen();
   },
 
   handleQualityClick: function() {
-    this.props.controller.toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
+    this.props.controller().toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
   },
 
   handleDiscoveryClick: function () {
-    this.props.controller.toggleDiscoveryScreen();
+    this.props.controller().toggleDiscoveryScreen();
   },
 
   handleClosedCaptionClick: function () {
-    this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
+    this.props.controller().toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
   },
 
   highlight: function (evt) {
@@ -2336,7 +2336,7 @@ var MoreOptionsPanel = React.createClass({displayName: "MoreOptionsPanel",
       )
     };
 
-    var items = this.props.controller.state.moreOptionsItems;
+    var items = this.props.controller().state.moreOptionsItems;
     var moreOptionsItems = [];
     
     for (var i = 0; i < items.length; i++) {
@@ -2400,7 +2400,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
 
   getInitialState: function() {
     this.lastScrubX = null;
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     this.touchInitiated = false;
 
     return {
@@ -2453,8 +2453,8 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
   },
 
   handlePlayheadMouseDown: function(evt) {
-    if (this.props.controller.state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN) return;
-    this.props.controller.startHideControlBarTimer();
+    if (this.props.controller().state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN) return;
+    this.props.controller().startHideControlBarTimer();
     if (evt.target.className.match("playhead") && evt.type !== "mousedown") {
         this.touchInitiated = true;
     }
@@ -2469,8 +2469,8 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
 
       // we enter the scrubbing state to prevent constantly seeking while dragging
       // the playhead icon
-      this.props.controller.beginSeeking();
-      this.props.controller.renderSkin();
+      this.props.controller().beginSeeking();
+      this.props.controller().renderSkin();
 
       if (!this.lastScrubX) {
         this.lastScrubX = evt.clientX;
@@ -2490,7 +2490,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
   },
 
   handlePlayheadMouseMove: function(evt) {
-    this.props.controller.startHideControlBarTimer();
+    this.props.controller().startHideControlBarTimer();
     evt.preventDefault();
     if (this.props.seeking && this.props.duration > 0) {
       if (this.touchInitiated){
@@ -2498,7 +2498,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
       }
       var deltaX = evt.clientX - this.lastScrubX;
       var scrubbingPlayheadX = this.props.currentPlayhead * this.state.scrubberBarWidth / this.props.duration + deltaX;
-      this.props.controller.updateSeekingPlayhead((scrubbingPlayheadX / this.state.scrubberBarWidth) * this.props.duration);
+      this.props.controller().updateSeekingPlayhead((scrubbingPlayheadX / this.state.scrubberBarWidth) * this.props.duration);
       this.setState({
         scrubbingPlayheadX: scrubbingPlayheadX
       });
@@ -2510,7 +2510,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
     if (!this.isMounted()) {
       return;
     }
-    this.props.controller.startHideControlBarTimer();
+    this.props.controller().startHideControlBarTimer();
     evt.preventDefault();
     // stop propagation to prevent it from bubbling up to the skin and pausing
     evt.stopPropagation(); // W3C
@@ -2525,19 +2525,19 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
       ReactDOM.findDOMNode(this).parentNode.removeEventListener("touchmove", this.handlePlayheadMouseMove);
       document.removeEventListener("touchend", this.handlePlayheadMouseUp, true);
     }
-    this.props.controller.seek(this.props.currentPlayhead);
+    this.props.controller().seek(this.props.currentPlayhead);
     if (this.isMounted()) {
       this.setState({
         currentPlayhead: this.props.currentPlayhead,
         scrubbingPlayheadX: 0
       });
-      this.props.controller.endSeeking();
+      this.props.controller().endSeeking();
     }
     this.touchInitiated = false;
   },
 
   handleScrubberBarMouseDown: function(evt) {
-    if (this.props.controller.state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN) return;
+    if (this.props.controller().state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN) return;
     if (evt.target.className.match("oo-playhead")) { return; }
     if (this.touchInitiated && evt.type === "mousedown") { return; }
     var offsetX = 0;
@@ -2552,13 +2552,13 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
     this.setState({
       scrubbingPlayheadX: offsetX
     });
-    this.props.controller.updateSeekingPlayhead((offsetX / this.state.scrubberBarWidth) * this.props.duration);
+    this.props.controller().updateSeekingPlayhead((offsetX / this.state.scrubberBarWidth) * this.props.duration);
     this.handlePlayheadMouseDown(evt);
   },
 
   handleScrubberBarMouseOver: function(evt) {
     if (!this.props.skinConfig.controlBar.scrubberBar.thumbnailPreview) return;
-    if (this.props.controller.state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN) return;
+    if (this.props.controller().state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN) return;
     if (this.isMobile) { return; }
     if (evt.target.className.match("oo-playhead")) { return; }
 
@@ -2572,7 +2572,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
   },
 
   handleScrubberBarMouseOut: function(evt) {
-    if (!this.props.controller.state.thumbnails) return;
+    if (!this.props.controller().state.thumbnails) return;
     this.setState({
       hoveringX: 0
     });
@@ -2619,7 +2619,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
     var playheadClassName = "oo-playhead";
     var scrubberBarClassName = "oo-scrubber-bar";
 
-    if (this.props.controller.state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN){
+    if (this.props.controller().state.screenToShow == CONSTANTS.SCREEN.AD_SCREEN){
       playheadClassName += " oo-ad-playhead";
       playedIndicatorClassName += " oo-played-ad-indicator";
       playheadMouseDown = null;
@@ -2635,7 +2635,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
     var hoverPosition = 0;
     var hoveredIndicatorStyle = null;
 
-    if (this.props.controller.state.thumbnails && (this.state.scrubbingPlayheadX || this.lastScrubX || this.state.hoveringX)) {
+    if (this.props.controller().state.thumbnails && (this.state.scrubbingPlayheadX || this.lastScrubX || this.state.hoveringX)) {
       if (this.state.scrubbingPlayheadX) {
         hoverPosition = this.state.scrubbingPlayheadX;
         hoverTime = (this.state.scrubbingPlayheadX / this.state.scrubberBarWidth) * this.props.duration;
@@ -2643,7 +2643,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
 
         thumbnailCarousel =
           React.createElement(ThumbnailCarousel, {
-           thumbnails: this.props.controller.state.thumbnails, 
+           thumbnails: this.props.controller().state.thumbnails, 
            duration: this.props.duration, 
            hoverTime: hoverTime > 0 ? hoverTime : 0, 
            scrubberBarWidth: this.state.scrubberBarWidth})
@@ -2664,7 +2664,7 @@ var ScrubberBar = React.createClass({displayName: "ScrubberBar",
       if (!thumbnailCarousel) {
         thumbnailContainer = (
           React.createElement(Thumbnail, {
-           thumbnails: this.props.controller.state.thumbnails, 
+           thumbnails: this.props.controller().state.thumbnails, 
            hoverPosition: hoverPosition, 
            duration: this.props.duration, 
            hoverTime: hoverTime > 0 ? hoverTime : 0})
@@ -3466,7 +3466,7 @@ var React = require('react'),
 
 var UpNextPanel = React.createClass({displayName: "UpNextPanel",
   closeUpNextPanel: function() {
-    this.props.controller.upNextDismissButtonClicked();
+    this.props.controller().upNextDismissButtonClicked();
   },
 
   handleStartUpNextClick: function(event) {
@@ -3480,7 +3480,7 @@ var UpNextPanel = React.createClass({displayName: "UpNextPanel",
         "autoplay": true
       }
     };
-    this.props.controller.sendDiscoveryClickEvent(eventData, false);
+    this.props.controller().sendDiscoveryClickEvent(eventData, false);
   },
 
   render: function() {
@@ -3671,6 +3671,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is Safari or not
   */
   isSafari: function () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/AppleWebKit/) &&
             !window.navigator.userAgent.match(/Chrome/));
   },
@@ -3682,6 +3685,9 @@ var Utils = {
    * @returns {Boolean} Whether the browser is Chrome or not
    */
   isChrome: function () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/Chrome/) && !!window.navigator.vendor.match(/Google Inc/));
   },
 
@@ -3692,6 +3698,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is Edge or not
   */
   isEdge: function () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/Edge/));
   },
 
@@ -3702,6 +3711,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is IE or not
   */
   isIE: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return (!!window.navigator.userAgent.match(/MSIE/) || !!window.navigator.userAgent.match(/Trident/));
   },
 
@@ -3712,6 +3724,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is running on Android or not
   */
   isAndroid: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     var os = window.navigator.appVersion;
     return !!os.match(/Android/);
   },
@@ -3723,6 +3738,9 @@ var Utils = {
   * @returns {Boolean} Whether the device is iOS or not
   */
   isIos: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     var platform = window.navigator.platform;
     return !!(platform.match(/iPhone/) || platform.match(/iPad/) || platform.match(/iPod/));
   },
@@ -3734,6 +3752,9 @@ var Utils = {
   * @returns {Boolean} Whether the device is an iPhone or not
   */
   isIPhone: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     var platform = window.navigator.platform;
     return !!(platform.match(/iPhone/) || platform.match(/iPod/));
   },
@@ -3755,6 +3776,9 @@ var Utils = {
   * @returns {Boolean} Whether the browser is IE10 or not
   */
   isIE10: function() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return !!window.navigator.userAgent.match(/MSIE 10/);
   },
 
@@ -4003,7 +4027,7 @@ var VideoQualityPanel = React.createClass({displayName: "VideoQualityPanel",
     var eventData = {
       "id": selectedBitrateId
     };
-    this.props.controller.sendVideoQualityChangeEvent(eventData);
+    this.props.controller().sendVideoQualityChangeEvent(eventData);
     this.setState({
       selected: selectedBitrateId
     });
@@ -4054,7 +4078,7 @@ var VideoQualityPanel = React.createClass({displayName: "VideoQualityPanel",
       'oo-content-panel': !this.props.popover,
       'oo-quality-panel': !this.props.popover,
       'oo-quality-popover': this.props.popover,
-      'oo-mobile-fullscreen': !this.props.popover && this.props.controller.state.isMobile && (this.props.controller.state.fullscreen || this.props.controller.state.isFullWindow)
+      'oo-mobile-fullscreen': !this.props.popover && this.props.controller().state.isMobile && (this.props.controller().state.fullscreen || this.props.controller().state.isFullWindow)
     });
 
     return (
@@ -4397,7 +4421,7 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
   if (OO.publicApi && OO.publicApi.VERSION) {
     // This variable gets filled in by the build script
-    OO.publicApi.VERSION.skin = {"releaseVersion": "4.8.5", "rev": "f246521bec4d503c0ccac48406d6d5a867d283b5"};
+    OO.publicApi.VERSION.skin = {"releaseVersion": "4.8.5", "rev": "d993857f473d2f1ea03d8f9458c0b547b189698c"};
   }
 
   var Html5Skin = function (mb, id) {
@@ -4508,7 +4532,8 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       "isFullScreenSupported": false,
       "isVideoFullScreenSupported": false,
       "isFullWindow": false,
-      "autoPauseDisabled": false
+      "autoPauseDisabled": false,
+      "serverSideRendered": false
     };
 
     this.init();
@@ -4602,6 +4627,31 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
       this.state.mainVideoInnerWrapper.addClass('oo-player');
       this.state.mainVideoInnerWrapper.append("<div class='oo-player-skin'></div>");
 
+      // Append elements rendered on server-side
+      if ('content' in document.createElement('template')) {
+        var container = document.querySelector("#" + this.state.elementId + " .oo-player-skin");
+        var template = document.querySelector('#server-rendered');
+        if (template) {
+          var clone = document.importNode(template.content, true);
+          // Dirty hacks
+          function updateReactId(parent, baseId) {
+            var children = parent.children;
+            for (var i = 0; i < children.length; i++) {
+              var child = children[i];
+              var reactId = baseId + '.' + i;
+              child.setAttribute('data-reactid', reactId);
+              updateReactId(child, reactId);
+            }
+          }
+          var top = clone.querySelector('#oo-responsive');
+          top.setAttribute('data-reactid', '.0');
+          top.setAttribute('data-react-checksum', '752556476');
+          updateReactId(top, '.0')
+          container.appendChild(clone);
+          this.state.serverSideRendered = true;
+        }
+      }
+
       // Would be a good idea to also (or only) wait for skin metadata to load. Load metadata here
       if (global.serverData && serverData.skinConfig) {
         this.onSkinConfigLoaded(settings, serverData.skinConfig);
@@ -4635,12 +4685,16 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
 
       this.state.config = data;
 
+      var self = this;
       this.skin = ReactDOM.render(
-        React.createElement(Skin, {skinConfig: data, localizableStrings: tmpLocalizableStrings, language: Utils.getLanguageToUse(data), controller: this, closedCaptionOptions: this.state.closedCaptionOptions, pauseAnimationDisabled: this.state.pauseAnimationDisabled}), document.querySelector("#" + this.state.elementId + " .oo-player-skin")
+        React.createElement(Skin, {skinConfig: data, localizableStrings: tmpLocalizableStrings, language: Utils.getLanguageToUse(data), controller: function () {return self;}, closedCaptionOptions: this.state.closedCaptionOptions, pauseAnimationDisabled: this.state.pauseAnimationDisabled}), document.querySelector("#" + this.state.elementId + " .oo-player-skin")
       );
       var accessibilityControls = new AccessibilityControls(this); //keyboard support
       this.state.configLoaded = true;
       this.renderSkin();
+      if (this.state.serverSideRendered) {
+        this.state.configLoaded = false;
+      }
 
       var fullClass = (this.state.config.adScreen.showControlBar ? "" : " oo-full");
       $("#" + this.state.elementId + " .oo-player-skin").append("<div class='oo-player-skin-plugins"+fullClass+"'></div><div class='oo-player-skin-plugins-click-layer"+fullClass+"'></div>");
@@ -5858,15 +5912,15 @@ OO.plugin("Html5Skin", function (OO, _, $, W) {
  * Enables accessability controls.
  *
  * @mixin AccessibilityMixin
- * @requires this.props.controller.state.accessibilityControlsEnabled
+ * @requires this.props.controller().state.accessibilityControlsEnabled
  */
 var AccessibilityMixin = {
   componentDidMount: function() {
-    this.props.controller.state.accessibilityControlsEnabled = false;
+    this.props.controller().state.accessibilityControlsEnabled = false;
   },
 
   componentWillUnmount: function() {
-    this.props.controller.state.accessibilityControlsEnabled = true;
+    this.props.controller().state.accessibilityControlsEnabled = true;
   }
 };
 module.exports = AccessibilityMixin;
@@ -6030,8 +6084,14 @@ var Skin = React.createClass({displayName: "Skin",
     if (this.state.screenToShow !== null && !this.overlayRenderingEventSent) {
       var responsiveUIMultiple = this.props.skinConfig.responsive.breakpoints[this.state.responsiveId].multiplier;
       var marginHeight = responsiveUIMultiple * this.props.skinConfig.controlBar.height;
-      this.props.controller.publishOverlayRenderingEvent(marginHeight);
+      this.props.controller().publishOverlayRenderingEvent(marginHeight);
       this.overlayRenderingEventSent = true;
+    }
+  },
+
+  componentWillMount: function () {
+    if (typeof window === 'undefined' && this.state.screenToShow === null) {
+      this.setState(this.props.controller().state);
     }
   },
 
@@ -6044,7 +6104,7 @@ var Skin = React.createClass({displayName: "Skin",
   },
 
   handleClickOutsidePlayer: function() {
-    this.props.controller.state.accessibilityControlsEnabled = false;
+    this.props.controller().state.accessibilityControlsEnabled = false;
   },
 
   switchComponent: function(args) {
@@ -6171,7 +6231,7 @@ var Skin = React.createClass({displayName: "Skin",
               fullscreen: this.state.fullscreen, 
               playerState: this.state.playerState, 
               duration: this.state.duration, 
-              adVideoDuration: this.props.controller.state.adVideoDuration, 
+              adVideoDuration: this.props.controller().state.adVideoDuration, 
               buffered: this.state.buffered, 
               seeking: this.state.seeking, 
               controlBarAutoHide: this.props.skinConfig.controlBar.autoHide, 
@@ -6247,7 +6307,7 @@ var Skin = React.createClass({displayName: "Skin",
         case CONSTANTS.SCREEN.ERROR_SCREEN:
           screen = (
             React.createElement(ErrorScreen, React.__spread({},  this.props, 
-              {errorCode: this.props.controller.state.errorCode}))
+              {errorCode: this.props.controller().state.errorCode}))
           );
           break;
         default:
@@ -6312,7 +6372,7 @@ var AdScreen = React.createClass({displayName: "AdScreen",
   mixins: [ResizeMixin],
 
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     return {
       controlBarVisible: true,
       timer: null
@@ -6322,7 +6382,7 @@ var AdScreen = React.createClass({displayName: "AdScreen",
   componentDidMount: function () {
     //for mobile or desktop fullscreen, hide control bar after 3 seconds
     if (this.isMobile || this.props.fullscreen) {
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -6337,22 +6397,22 @@ var AdScreen = React.createClass({displayName: "AdScreen",
       }
 
       if(!this.props.fullscreen && nextProps.fullscreen && this.state.playerState != CONSTANTS.STATE.PAUSE) {
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
       if(this.props.fullscreen && !nextProps.fullscreen && this.isMobile) {
         this.showControlBar();
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
     }
   },
 
   componentWillUnmount: function () {
-    this.props.controller.cancelTimer();
+    this.props.controller().cancelTimer();
   },
 
   handleResize: function() {
     if (this.isMounted()) {
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -6360,9 +6420,9 @@ var AdScreen = React.createClass({displayName: "AdScreen",
     event.stopPropagation(); // W3C
     event.cancelBubble = true; // IE
 
-    this.props.controller.state.accessibilityControlsEnabled = true;
+    this.props.controller().state.accessibilityControlsEnabled = true;
     if ((event.type == 'click' || !this.isMobile) && !this.props.skinConfig.adScreen.showAdMarquee) {
-      this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
+      this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
     }
   },
 
@@ -6374,25 +6434,25 @@ var AdScreen = React.createClass({displayName: "AdScreen",
       //since after exiting the full screen, iPhone pauses the video and places an overlay play button in the middle
       //of the screen (which we can't remove), clicking the screen would start the video.
       if (Utils.isIPhone() && this.state.playerState == CONSTANTS.STATE.PAUSE) {
-        this.props.controller.togglePlayPause();
+        this.props.controller().togglePlayPause();
       }
       else {
         event.stopPropagation(); // W3C
         event.cancelBubble = true; // IE
-        this.props.controller.onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
+        this.props.controller().onAdsClicked(CONSTANTS.AD_CLICK_SOURCE.VIDEO_WINDOW);
       }
     }
   },
 
   showControlBar: function() {
     this.setState({controlBarVisible: true});
-    this.props.controller.showControlBar();
+    this.props.controller().showControlBar();
   },
 
   hideControlBar: function(event) {
     if (this.props.controlBarAutoHide == true && !(this.isMobile && event)) {
       this.setState({controlBarVisible: false});
-      this.props.controller.hideControlBar();
+      this.props.controller().hideControlBar();
     }
   },
 
@@ -6402,7 +6462,7 @@ var AdScreen = React.createClass({displayName: "AdScreen",
       this.showControlBar();
       // Do not start the process to hide the control bar unless we are leaving pause state.
       if (this.props.playerState == CONSTANTS.STATE.PAUSE) {
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
     }
     // Even if our action was to start showing the control bar, we should still handle
@@ -6413,16 +6473,16 @@ var AdScreen = React.createClass({displayName: "AdScreen",
   handlePlayerMouseMove: function() {
     if(this.props.playerState !== CONSTANTS.STATE.PAUSE && !this.isMobile && this.props.fullscreen) {
       this.showControlBar();
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
   getPlaybackControlItems: function() {
-    if (!this.props.controller.state.showAdControls) return null;
+    if (!this.props.controller().state.showAdControls) return null;
 
     var showControlBar =
       this.props.playerState == CONSTANTS.STATE.PAUSE ||
-      this.props.controller.state.forceControlBarVisible ||
+      this.props.controller().state.forceControlBarVisible ||
       this.state.controlBarVisible;
 
     var playbackControlItemTemplates = {
@@ -6448,9 +6508,9 @@ var AdScreen = React.createClass({displayName: "AdScreen",
       opacity: this.props.skinConfig.pauseScreen.PauseIconStyle.opacity
     };
     var actionIconClass = ClassNames({
-      'oo-action-icon-pause': !this.props.controller.state.adPauseAnimationDisabled,
-      'oo-action-icon': this.props.controller.state.adPauseAnimationDisabled,
-      'oo-animate-pause': !this.props.controller.state.adPauseAnimationDisabled,
+      'oo-action-icon-pause': !this.props.controller().state.adPauseAnimationDisabled,
+      'oo-action-icon': this.props.controller().state.adPauseAnimationDisabled,
+      'oo-animate-pause': !this.props.controller().state.adPauseAnimationDisabled,
       'oo-action-icon-top': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("top") > -1,
       'oo-action-icon-bottom': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("bottom") > -1,
       'oo-action-icon-left': this.props.skinConfig.pauseScreen.pauseIconPosition.toLowerCase().indexOf("left") > -1,
@@ -6459,7 +6519,7 @@ var AdScreen = React.createClass({displayName: "AdScreen",
       'oo-icon-hidden': this.props.playerState != CONSTANTS.STATE.PAUSE
     });
     var adPanel = null;
-    if (this.props.skinConfig.adScreen.showAdMarquee && this.props.controller.state.showAdMarquee) {
+    if (this.props.skinConfig.adScreen.showAdMarquee && this.props.controller().state.showAdMarquee) {
       adPanel = React.createElement(AdPanel, React.__spread({},  this.props));
     }
     var playbackControlItems = null;
@@ -6505,10 +6565,10 @@ var ContentScreen = React.createClass({displayName: "ContentScreen",
   handleClose: function() {
     switch(this.props.screen) {
       case CONSTANTS.SCREEN.DISCOVERY_SCREEN:
-        this.props.controller.toggleDiscoveryScreen();
+        this.props.controller().toggleDiscoveryScreen();
         break;
       default:
-        this.props.controller.toggleScreen(this.props.screen);
+        this.props.controller().toggleScreen(this.props.screen);
     }
   },
 
@@ -6583,8 +6643,8 @@ var EndScreen = React.createClass({displayName: "EndScreen",
   handleClick: function(event) {
     // pause or play the video if the skin is clicked
     event.preventDefault();
-    this.props.controller.state.accessibilityControlsEnabled = true;
-    this.props.controller.togglePlayPause();
+    this.props.controller().state.accessibilityControlsEnabled = true;
+    this.props.controller().togglePlayPause();
   },
 
   render: function() {
@@ -6704,7 +6764,7 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
   },
 
   componentWillUnmount: function() {
-    this.props.controller.enablePauseAnimation();
+    this.props.controller().enablePauseAnimation();
   },
 
   handleResize: function() {
@@ -6717,8 +6777,8 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
 
   handleClick: function(event) {
     event.preventDefault();
-    this.props.controller.togglePlayPause();
-    this.props.controller.state.accessibilityControlsEnabled = true;
+    this.props.controller().togglePlayPause();
+    this.props.controller().state.accessibilityControlsEnabled = true;
   },
 
   render: function() {
@@ -6769,13 +6829,13 @@ var PauseScreen = React.createClass({displayName: "PauseScreen",
 
     var titleMetadata = (React.createElement("div", {className: titleClass, style: titleStyle}, this.props.contentTree.title));
     var descriptionMetadata = (React.createElement("div", {className: descriptionClass, ref: "description", style: descriptionStyle}, this.state.descriptionText));
-    var adOverlay = (this.props.controller.state.adOverlayUrl && this.props.controller.state.showAdOverlay) ?
+    var adOverlay = (this.props.controller().state.adOverlayUrl && this.props.controller().state.showAdOverlay) ?
       React.createElement(AdOverlay, React.__spread({},  this.props, 
-        {overlay: this.props.controller.state.adOverlayUrl, 
-        showOverlay: this.props.controller.state.showAdOverlay, 
-        showOverlayCloseButton: this.props.controller.state.showAdOverlayCloseButton})) : null;
+        {overlay: this.props.controller().state.adOverlayUrl, 
+        showOverlay: this.props.controller().state.showAdOverlay, 
+        showOverlayCloseButton: this.props.controller().state.showAdOverlayCloseButton})) : null;
 
-    var upNextPanel = (this.props.controller.state.upNextInfo.showing && this.props.controller.state.upNextInfo.upNextData) ?
+    var upNextPanel = (this.props.controller().state.upNextInfo.showing && this.props.controller().state.upNextInfo.upNextData) ?
       React.createElement(UpNextPanel, React.__spread({},  this.props, 
         {controlBarVisible: this.state.controlBarVisible, 
         currentPlayhead: this.props.currentPlayhead})) : null;
@@ -6837,8 +6897,8 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
   mixins: [ResizeMixin],
 
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
-    this.browserSupportsTouch = this.props.controller.state.browserSupportsTouch;
+    this.isMobile = this.props.controller().state.isMobile;
+    this.browserSupportsTouch = this.props.controller().state.browserSupportsTouch;
     return {
       controlBarVisible: true,
       timer: null
@@ -6848,7 +6908,7 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
   componentDidMount: function () {
     //for mobile or desktop fullscreen, hide control bar after 3 seconds
     if (this.isMobile || this.props.fullscreen || this.browserSupportsTouch){
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -6858,23 +6918,23 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
         this.hideControlBar();
       }
       if(!this.props.fullscreen && nextProps.fullscreen) {
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
       if(this.props.fullscreen && !nextProps.fullscreen && this.isMobile) {
         this.setState({controlBarVisible: true});
-        this.props.controller.showControlBar();
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().showControlBar();
+        this.props.controller().startHideControlBarTimer();
       }
     }
   },
 
   componentWillUnmount: function () {
-    this.props.controller.cancelTimer();
+    this.props.controller().cancelTimer();
   },
 
   handleResize: function() {
     if (this.isMounted()) {
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -6884,8 +6944,8 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
       event.stopPropagation(); // W3C
       event.cancelBubble = true; // IE
 
-      this.props.controller.togglePlayPause();
-      this.props.controller.state.accessibilityControlsEnabled = true;
+      this.props.controller().togglePlayPause();
+      this.props.controller().state.accessibilityControlsEnabled = true;
     }
     // for mobile, touch is handled in handleTouchEnd
   },
@@ -6894,24 +6954,24 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
     event.preventDefault();//to prevent mobile from propagating click to discovery shown on pause
     if (!this.state.controlBarVisible){
       this.showControlBar(event);
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
     else {
-      this.props.controller.togglePlayPause();
+      this.props.controller().togglePlayPause();
     }
   },
 
   handlePlayerMouseMove: function() {
     if(!this.isMobile && this.props.fullscreen) {
       this.showControlBar();
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
   showControlBar: function(event) {
     if (!this.isMobile || event.type == 'touchend') {
       this.setState({controlBarVisible: true});
-      this.props.controller.showControlBar();
+      this.props.controller().showControlBar();
       ReactDOM.findDOMNode(this.refs.PlayingScreen).style.cursor="auto";
     }
   },
@@ -6919,19 +6979,19 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
   hideControlBar: function(event) {
     if (this.props.controlBarAutoHide == true && !(this.isMobile && event)) {
       this.setState({controlBarVisible: false});
-      this.props.controller.hideControlBar();
+      this.props.controller().hideControlBar();
       ReactDOM.findDOMNode(this.refs.PlayingScreen).style.cursor="none";
     }
   },
 
   render: function() {
-    var adOverlay = (this.props.controller.state.adOverlayUrl && this.props.controller.state.showAdOverlay) ?
+    var adOverlay = (this.props.controller().state.adOverlayUrl && this.props.controller().state.showAdOverlay) ?
       React.createElement(AdOverlay, React.__spread({},  this.props, 
-        {overlay: this.props.controller.state.adOverlayUrl, 
-        showOverlay: this.props.controller.state.showAdOverlay, 
-        showOverlayCloseButton: this.props.controller.state.showAdOverlayCloseButton})) : null;
+        {overlay: this.props.controller().state.adOverlayUrl, 
+        showOverlay: this.props.controller().state.showAdOverlay, 
+        showOverlayCloseButton: this.props.controller().state.showAdOverlayCloseButton})) : null;
 
-    var upNextPanel = (this.props.controller.state.upNextInfo.showing && this.props.controller.state.upNextInfo.upNextData) ?
+    var upNextPanel = (this.props.controller().state.upNextInfo.showing && this.props.controller().state.upNextInfo.upNextData) ?
       React.createElement(UpNextPanel, React.__spread({},  this.props, 
         {controlBarVisible: this.state.controlBarVisible, 
         currentPlayhead: this.props.currentPlayhead})) : null;
@@ -6943,7 +7003,7 @@ var PlayingScreen = React.createClass({displayName: "PlayingScreen",
          onMouseOut: this.hideControlBar, 
          onMouseMove: this.handlePlayerMouseMove}, 
 
-      this.props.controller.state.buffering ? React.createElement(Spinner, {loadingImage: this.props.skinConfig.general.loadingImage.imageResource.url}) : null, 
+      this.props.controller().state.buffering ? React.createElement(Spinner, {loadingImage: this.props.skinConfig.general.loadingImage.imageResource.url}) : null, 
 
       React.createElement("div", {className: "oo-state-screen-selectable", onMouseUp: this.handlePlayerMouseUp, onTouchEnd: this.handleTouchEnd}), 
 
@@ -7031,8 +7091,8 @@ var StartScreen = React.createClass({displayName: "StartScreen",
 
   handleClick: function(event) {
     event.preventDefault();
-    this.props.controller.togglePlayPause();
-    this.props.controller.state.accessibilityControlsEnabled = true;
+    this.props.controller().togglePlayPause();
+    this.props.controller().state.accessibilityControlsEnabled = true;
     this.setState({playButtonClicked: true});
   },
 
@@ -7084,7 +7144,7 @@ var StartScreen = React.createClass({displayName: "StartScreen",
     });
 
     var titleMetadata = (React.createElement("div", {className: titleClass, style: titleStyle}, this.props.contentTree.title));
-    var iconName = (this.props.controller.state.playerState == CONSTANTS.STATE.END ? "replay" : "play");
+    var iconName = (this.props.controller().state.playerState == CONSTANTS.STATE.END ? "replay" : "play");
     var descriptionMetadata = (React.createElement("div", {className: descriptionClass, ref: "description", style: descriptionStyle}, this.state.descriptionText));
 
     var actionIcon = (
@@ -7103,7 +7163,7 @@ var StartScreen = React.createClass({displayName: "StartScreen",
           this.props.skinConfig.startScreen.showDescription ? descriptionMetadata : null
         ), 
 
-        (this.state.playButtonClicked && this.props.controller.state.playerState == CONSTANTS.STATE.START) || this.props.controller.state.buffering ?
+        (this.state.playButtonClicked && this.props.controller().state.playerState == CONSTANTS.STATE.START) || this.props.controller().state.buffering ?
           React.createElement(Spinner, {loadingImage: this.props.skinConfig.general.loadingImage.imageResource.url}) : actionIcon
       )
     );

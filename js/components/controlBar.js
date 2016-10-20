@@ -16,7 +16,7 @@ var React = require('react'),
 
 var ControlBar = React.createClass({
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
+    this.isMobile = this.props.controller().state.isMobile;
     this.responsiveUIMultiple = this.getResponsiveUIMultiple(this.props.responsiveView);
     this.volumeSliderValue = 0;
     this.moreOptionsItems = null;
@@ -38,10 +38,10 @@ var ControlBar = React.createClass({
   },
 
   componentWillUnmount: function () {
-    this.props.controller.cancelTimer();
+    this.props.controller().cancelTimer();
     this.closePopovers();
     if (Utils.isAndroid()){
-      this.props.controller.hideVolumeSliderBar();
+      this.props.controller().hideVolumeSliderBar();
     }
     window.removeEventListener('orientationchange', this.closePopovers);
   },
@@ -55,8 +55,8 @@ var ControlBar = React.createClass({
     if (evt.type == 'touchend' || !this.isMobile){
       evt.stopPropagation(); // W3C
       evt.cancelBubble = true; // IE
-      this.props.controller.state.accessibilityControlsEnabled = true;
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().state.accessibilityControlsEnabled = true;
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -67,45 +67,45 @@ var ControlBar = React.createClass({
     evt.stopPropagation();
     evt.cancelBubble = true;
     evt.preventDefault();
-    this.props.controller.toggleFullscreen();
+    this.props.controller().toggleFullscreen();
   },
 
   handleLiveClick: function(evt) {
     evt.stopPropagation();
     evt.cancelBubble = true;
     evt.preventDefault();
-    this.props.controller.onLiveClick();
-    this.props.controller.seek(this.props.duration);
+    this.props.controller().onLiveClick();
+    this.props.controller().seek(this.props.duration);
   },
 
   handleVolumeIconClick: function(evt) {
     if (this.isMobile){
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
       evt.stopPropagation(); // W3C
       evt.cancelBubble = true; // IE
-      if (!this.props.controller.state.volumeState.volumeSliderVisible){
-        this.props.controller.showVolumeSliderBar();
+      if (!this.props.controller().state.volumeState.volumeSliderVisible){
+        this.props.controller().showVolumeSliderBar();
       }
       else {
-        this.props.controller.handleMuteClick();
+        this.props.controller().handleMuteClick();
       }
     }
     else{
-      this.props.controller.handleMuteClick();
+      this.props.controller().handleMuteClick();
     }
   },
 
   handlePlayClick: function() {
-    this.props.controller.togglePlayPause();
+    this.props.controller().togglePlayPause();
   },
 
   handleShareClick: function() {
-    this.props.controller.toggleShareScreen();
+    this.props.controller().toggleShareScreen();
   },
 
   handleQualityClick: function() {
     if(this.props.responsiveView == this.props.skinConfig.responsive.breakpoints.xs.id) {
-      this.props.controller.toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
+      this.props.controller().toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
     } else {
       this.toggleQualityPopover();
       this.closeCaptionPopover();
@@ -113,21 +113,21 @@ var ControlBar = React.createClass({
   },
 
   toggleQualityPopover: function() {
-    this.props.controller.toggleVideoQualityPopOver();
+    this.props.controller().toggleVideoQualityPopOver();
   },
 
   closeQualityPopover: function() {
-    if(this.props.controller.state.videoQualityOptions.showVideoQualityPopover == true) {
+    if(this.props.controller().state.videoQualityOptions.showVideoQualityPopover == true) {
       this.toggleQualityPopover();
     }
   },
 
   toggleCaptionPopover: function() {
-    this.props.controller.toggleClosedCaptionPopOver();
+    this.props.controller().toggleClosedCaptionPopOver();
   },
 
   closeCaptionPopover: function() {
-    if(this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover == true) {
+    if(this.props.controller().state.closedCaptionOptions.showClosedCaptionPopover == true) {
       this.toggleCaptionPopover();
     }
   },
@@ -140,20 +140,20 @@ var ControlBar = React.createClass({
   handleVolumeClick: function(evt) {
     evt.preventDefault();
     var newVolume = parseFloat(evt.target.dataset.volume);
-    this.props.controller.setVolume(newVolume);
+    this.props.controller().setVolume(newVolume);
   },
 
   handleDiscoveryClick: function() {
-    this.props.controller.toggleDiscoveryScreen();
+    this.props.controller().toggleDiscoveryScreen();
   },
 
   handleMoreOptionsClick: function() {
-    this.props.controller.toggleMoreOptionsScreen(this.moreOptionsItems);
+    this.props.controller().toggleMoreOptionsScreen(this.moreOptionsItems);
   },
 
   handleClosedCaptionClick: function() {
     if(this.props.responsiveView == this.props.skinConfig.responsive.breakpoints.xs.id) {
-      this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
+      this.props.controller().toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
     } else {
       this.toggleCaptionPopover();
       this.closeQualityPopover();
@@ -183,7 +183,7 @@ var ControlBar = React.createClass({
 
   changeVolumeSlider: function(event) {
     var newVolume = parseFloat(event.target.value);
-    this.props.controller.setVolume(newVolume);
+    this.props.controller().setVolume(newVolume);
     this.setState({
       volumeSliderValue: event.target.value
     });
@@ -200,10 +200,10 @@ var ControlBar = React.createClass({
       playIcon = "play";
     }
 
-    var volumeIcon = (this.props.controller.state.volumeState.muted ? "volumeOff" : "volume");
+    var volumeIcon = (this.props.controller().state.volumeState.muted ? "volumeOff" : "volume");
 
     var fullscreenIcon = "";
-    if (this.props.controller.state.fullscreen) {
+    if (this.props.controller().state.fullscreen) {
       fullscreenIcon = "compress"
     }
     else {
@@ -221,7 +221,7 @@ var ControlBar = React.createClass({
     var volumeBars = [];
     for (var i=0; i<10; i++) {
       //create each volume tick separately
-      var turnedOn = this.props.controller.state.volumeState.volume >= (i+1) / 10;
+      var turnedOn = this.props.controller().state.volumeState.volume >= (i+1) / 10;
       var volumeClass = ClassNames({
         "oo-volume-bar": true,
         "oo-on": turnedOn
@@ -232,7 +232,7 @@ var ControlBar = React.createClass({
         onClick={this.handleVolumeClick}></a>);
     }
 
-    var volumeSlider = <div className="oo-volume-slider"><Slider value={parseFloat(this.props.controller.state.volumeState.volume)}
+    var volumeSlider = <div className="oo-volume-slider"><Slider value={parseFloat(this.props.controller().state.volumeState.volume)}
                         onChange={this.changeVolumeSlider}
                         className={"oo-slider oo-slider-volume"}
                         itemRef={"volumeSlider"}
@@ -245,7 +245,7 @@ var ControlBar = React.createClass({
       volumeControls = volumeBars;
     }
     else {
-      volumeControls = this.props.controller.state.volumeState.volumeSliderVisible ? volumeSlider : null;
+      volumeControls = this.props.controller().state.volumeState.volumeSliderVisible ? volumeSlider : null;
     }
 
     var playheadTime = isFinite(parseInt(this.props.currentPlayhead)) ? Utils.formatSeconds(parseInt(this.props.currentPlayhead)) : null;
@@ -266,19 +266,19 @@ var ControlBar = React.createClass({
         "oo-live-nonclickable": isLiveNow
       });
 
-    var videoQualityPopover = this.props.controller.state.videoQualityOptions.showVideoQualityPopover ? <Popover><VideoQualityPanel{...this.props} togglePopoverAction={this.toggleQualityPopover} popover={true}/></Popover> : null;
-    var closedCaptionPopover = this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover ? <Popover popoverClassName="oo-popover oo-popover-pull-right"><ClosedCaptionPopover {...this.props} togglePopoverAction={this.toggleCaptionPopover}/></Popover> : null;
+    var videoQualityPopover = this.props.controller().state.videoQualityOptions.showVideoQualityPopover ? <Popover><VideoQualityPanel{...this.props} togglePopoverAction={this.toggleQualityPopover} popover={true}/></Popover> : null;
+    var closedCaptionPopover = this.props.controller().state.closedCaptionOptions.showClosedCaptionPopover ? <Popover popoverClassName="oo-popover oo-popover-pull-right"><ClosedCaptionPopover {...this.props} togglePopoverAction={this.toggleCaptionPopover}/></Popover> : null;
 
     var qualityClass = ClassNames({
       "oo-quality": true,
       "oo-control-bar-item": true,
-      "oo-selected": this.props.controller.state.videoQualityOptions.showVideoQualityPopover
+      "oo-selected": this.props.controller().state.videoQualityOptions.showVideoQualityPopover
     });
 
     var captionClass = ClassNames({
       "oo-closed-caption": true,
       "oo-control-bar-item": true,
-      "oo-selected": this.props.controller.state.closedCaptionOptions.showClosedCaptionPopover
+      "oo-selected": this.props.controller().state.closedCaptionOptions.showClosedCaptionPopover
     });
 
     var controlItemTemplates = {
@@ -361,7 +361,7 @@ var ControlBar = React.createClass({
     };
 
     var controlBarItems = [];
-    var defaultItems = this.props.controller.state.isPlayingAd ? this.props.skinConfig.buttons.desktopAd : this.props.skinConfig.buttons.desktopContent;
+    var defaultItems = this.props.controller().state.isPlayingAd ? this.props.skinConfig.buttons.desktopAd : this.props.skinConfig.buttons.desktopContent;
 
     //if mobile and not showing the slider or the icon, extra space can be added to control bar width. If volume bar is shown instead of slider, add some space as well:
     var volumeItem = null;
@@ -371,7 +371,7 @@ var ControlBar = React.createClass({
       if (defaultItems[j].name == "volume") {
         volumeItem = defaultItems[j];
 
-        var extraSpaceVolumeSlider = (((volumeItem && this.isMobile && !this.props.controller.state.volumeState.volumeSliderVisible) || volumeItem && Utils.isIos()) ? parseInt(volumeItem.minWidth) : 0);
+        var extraSpaceVolumeSlider = (((volumeItem && this.isMobile && !this.props.controller().state.volumeState.volumeSliderVisible) || volumeItem && Utils.isIos()) ? parseInt(volumeItem.minWidth) : 0);
         var extraSpaceVolumeBar = this.isMobile ? 0 : parseInt(volumeItem.minWidth)/2;
         extraSpaceVolume = extraSpaceVolumeSlider + extraSpaceVolumeBar;
 
@@ -394,17 +394,17 @@ var ControlBar = React.createClass({
       }
 
       //do not show CC button if no CC available
-      if (!this.props.controller.state.closedCaptionOptions.availableLanguages && (defaultItems[k].name === "closedCaption")){
+      if (!this.props.controller().state.closedCaptionOptions.availableLanguages && (defaultItems[k].name === "closedCaption")){
         continue;
       }
 
       //do not show quality button if no bitrates available
-      if (!this.props.controller.state.videoQualityOptions.availableBitrates && (defaultItems[k].name === "quality")){
+      if (!this.props.controller().state.videoQualityOptions.availableBitrates && (defaultItems[k].name === "quality")){
         continue;
       }
 
       //do not show discovery button if no related videos available
-      if (!this.props.controller.state.discoveryData && (defaultItems[k].name === "discovery")){
+      if (!this.props.controller().state.discoveryData && (defaultItems[k].name === "discovery")){
         continue;
       }
 

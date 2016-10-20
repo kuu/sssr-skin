@@ -16,8 +16,8 @@ var EndScreen = React.createClass({
   handleClick: function(event) {
     // pause or play the video if the skin is clicked
     event.preventDefault();
-    this.props.controller.state.accessibilityControlsEnabled = true;
-    this.props.controller.togglePlayPause();
+    this.props.controller().state.accessibilityControlsEnabled = true;
+    this.props.controller().togglePlayPause();
   },
 
   render: function() {

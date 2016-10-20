@@ -28,7 +28,7 @@ var PauseScreen = React.createClass({
   },
 
   componentWillUnmount: function() {
-    this.props.controller.enablePauseAnimation();
+    this.props.controller().enablePauseAnimation();
   },
 
   handleResize: function() {
@@ -41,8 +41,8 @@ var PauseScreen = React.createClass({
 
   handleClick: function(event) {
     event.preventDefault();
-    this.props.controller.togglePlayPause();
-    this.props.controller.state.accessibilityControlsEnabled = true;
+    this.props.controller().togglePlayPause();
+    this.props.controller().state.accessibilityControlsEnabled = true;
   },
 
   render: function() {
@@ -93,13 +93,13 @@ var PauseScreen = React.createClass({
 
     var titleMetadata = (<div className={titleClass} style={titleStyle}>{this.props.contentTree.title}</div>);
     var descriptionMetadata = (<div className={descriptionClass} ref="description" style={descriptionStyle}>{this.state.descriptionText}</div>);
-    var adOverlay = (this.props.controller.state.adOverlayUrl && this.props.controller.state.showAdOverlay) ?
+    var adOverlay = (this.props.controller().state.adOverlayUrl && this.props.controller().state.showAdOverlay) ?
       <AdOverlay {...this.props}
-        overlay={this.props.controller.state.adOverlayUrl}
-        showOverlay={this.props.controller.state.showAdOverlay}
-        showOverlayCloseButton={this.props.controller.state.showAdOverlayCloseButton}/> : null;
+        overlay={this.props.controller().state.adOverlayUrl}
+        showOverlay={this.props.controller().state.showAdOverlay}
+        showOverlayCloseButton={this.props.controller().state.showAdOverlayCloseButton}/> : null;
 
-    var upNextPanel = (this.props.controller.state.upNextInfo.showing && this.props.controller.state.upNextInfo.upNextData) ?
+    var upNextPanel = (this.props.controller().state.upNextInfo.showing && this.props.controller().state.upNextInfo.upNextData) ?
       <UpNextPanel {...this.props}
         controlBarVisible={this.state.controlBarVisible}
         currentPlayhead={this.props.currentPlayhead}/> : null;

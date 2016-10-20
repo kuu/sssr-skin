@@ -16,7 +16,7 @@ var React = require('react'),
 
 var UpNextPanel = React.createClass({
   closeUpNextPanel: function() {
-    this.props.controller.upNextDismissButtonClicked();
+    this.props.controller().upNextDismissButtonClicked();
   },
 
   handleStartUpNextClick: function(event) {
@@ -30,7 +30,7 @@ var UpNextPanel = React.createClass({
         "autoplay": true
       }
     };
-    this.props.controller.sendDiscoveryClickEvent(eventData, false);
+    this.props.controller().sendDiscoveryClickEvent(eventData, false);
   },
 
   render: function() {

@@ -7,7 +7,7 @@ var React = require('react'),
 var ClosedCaptionPopover = React.createClass({
 
   handleMoreCaptions: function() {
-    this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
+    this.props.controller().toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
     this.handleClose();
   },
 

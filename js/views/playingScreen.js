@@ -14,8 +14,8 @@ var PlayingScreen = React.createClass({
   mixins: [ResizeMixin],
 
   getInitialState: function() {
-    this.isMobile = this.props.controller.state.isMobile;
-    this.browserSupportsTouch = this.props.controller.state.browserSupportsTouch;
+    this.isMobile = this.props.controller().state.isMobile;
+    this.browserSupportsTouch = this.props.controller().state.browserSupportsTouch;
     return {
       controlBarVisible: true,
       timer: null
@@ -25,7 +25,7 @@ var PlayingScreen = React.createClass({
   componentDidMount: function () {
     //for mobile or desktop fullscreen, hide control bar after 3 seconds
     if (this.isMobile || this.props.fullscreen || this.browserSupportsTouch){
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -35,23 +35,23 @@ var PlayingScreen = React.createClass({
         this.hideControlBar();
       }
       if(!this.props.fullscreen && nextProps.fullscreen) {
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().startHideControlBarTimer();
       }
       if(this.props.fullscreen && !nextProps.fullscreen && this.isMobile) {
         this.setState({controlBarVisible: true});
-        this.props.controller.showControlBar();
-        this.props.controller.startHideControlBarTimer();
+        this.props.controller().showControlBar();
+        this.props.controller().startHideControlBarTimer();
       }
     }
   },
 
   componentWillUnmount: function () {
-    this.props.controller.cancelTimer();
+    this.props.controller().cancelTimer();
   },
 
   handleResize: function() {
     if (this.isMounted()) {
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
@@ -61,8 +61,8 @@ var PlayingScreen = React.createClass({
       event.stopPropagation(); // W3C
       event.cancelBubble = true; // IE
 
-      this.props.controller.togglePlayPause();
-      this.props.controller.state.accessibilityControlsEnabled = true;
+      this.props.controller().togglePlayPause();
+      this.props.controller().state.accessibilityControlsEnabled = true;
     }
     // for mobile, touch is handled in handleTouchEnd
   },
@@ -71,24 +71,24 @@ var PlayingScreen = React.createClass({
     event.preventDefault();//to prevent mobile from propagating click to discovery shown on pause
     if (!this.state.controlBarVisible){
       this.showControlBar(event);
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
     else {
-      this.props.controller.togglePlayPause();
+      this.props.controller().togglePlayPause();
     }
   },
 
   handlePlayerMouseMove: function() {
     if(!this.isMobile && this.props.fullscreen) {
       this.showControlBar();
-      this.props.controller.startHideControlBarTimer();
+      this.props.controller().startHideControlBarTimer();
     }
   },
 
   showControlBar: function(event) {
     if (!this.isMobile || event.type == 'touchend') {
       this.setState({controlBarVisible: true});
-      this.props.controller.showControlBar();
+      this.props.controller().showControlBar();
       ReactDOM.findDOMNode(this.refs.PlayingScreen).style.cursor="auto";
     }
   },
@@ -96,19 +96,19 @@ var PlayingScreen = React.createClass({
   hideControlBar: function(event) {
     if (this.props.controlBarAutoHide == true && !(this.isMobile && event)) {
       this.setState({controlBarVisible: false});
-      this.props.controller.hideControlBar();
+      this.props.controller().hideControlBar();
       ReactDOM.findDOMNode(this.refs.PlayingScreen).style.cursor="none";
     }
   },
 
   render: function() {
-    var adOverlay = (this.props.controller.state.adOverlayUrl && this.props.controller.state.showAdOverlay) ?
+    var adOverlay = (this.props.controller().state.adOverlayUrl && this.props.controller().state.showAdOverlay) ?
       <AdOverlay {...this.props}
-        overlay={this.props.controller.state.adOverlayUrl}
-        showOverlay={this.props.controller.state.showAdOverlay}
-        showOverlayCloseButton={this.props.controller.state.showAdOverlayCloseButton}/> : null;
+        overlay={this.props.controller().state.adOverlayUrl}
+        showOverlay={this.props.controller().state.showAdOverlay}
+        showOverlayCloseButton={this.props.controller().state.showAdOverlayCloseButton}/> : null;
 
-    var upNextPanel = (this.props.controller.state.upNextInfo.showing && this.props.controller.state.upNextInfo.upNextData) ?
+    var upNextPanel = (this.props.controller().state.upNextInfo.showing && this.props.controller().state.upNextInfo.upNextData) ?
       <UpNextPanel {...this.props}
         controlBarVisible={this.state.controlBarVisible}
         currentPlayhead={this.props.currentPlayhead}/> : null;
@@ -120,7 +120,7 @@ var PlayingScreen = React.createClass({
          onMouseOut={this.hideControlBar}
          onMouseMove={this.handlePlayerMouseMove}>
 
-      {this.props.controller.state.buffering ? <Spinner loadingImage={this.props.skinConfig.general.loadingImage.imageResource.url}/> : null}
+      {this.props.controller().state.buffering ? <Spinner loadingImage={this.props.skinConfig.general.loadingImage.imageResource.url}/> : null}
 
       <div className="oo-state-screen-selectable" onMouseUp={this.handlePlayerMouseUp} onTouchEnd={this.handleTouchEnd}></div>
 

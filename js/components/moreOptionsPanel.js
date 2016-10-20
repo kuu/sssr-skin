@@ -16,19 +16,19 @@ var MoreOptionsPanel = React.createClass({
   mixins: [AnimateMixin],
 
   handleShareClick: function () {
-    this.props.controller.toggleShareScreen();
+    this.props.controller().toggleShareScreen();
   },
 
   handleQualityClick: function() {
-    this.props.controller.toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
+    this.props.controller().toggleScreen(CONSTANTS.SCREEN.VIDEO_QUALITY_SCREEN);
   },
 
   handleDiscoveryClick: function () {
-    this.props.controller.toggleDiscoveryScreen();
+    this.props.controller().toggleDiscoveryScreen();
   },
 
   handleClosedCaptionClick: function () {
-    this.props.controller.toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
+    this.props.controller().toggleScreen(CONSTANTS.SCREEN.CLOSEDCAPTION_SCREEN);
   },
 
   highlight: function (evt) {
@@ -78,7 +78,7 @@ var MoreOptionsPanel = React.createClass({
       </div>
     };
 
-    var items = this.props.controller.state.moreOptionsItems;
+    var items = this.props.controller().state.moreOptionsItems;
     var moreOptionsItems = [];
     
     for (var i = 0; i < items.length; i++) {

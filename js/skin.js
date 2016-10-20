@@ -37,8 +37,14 @@ var Skin = React.createClass({
     if (this.state.screenToShow !== null && !this.overlayRenderingEventSent) {
       var responsiveUIMultiple = this.props.skinConfig.responsive.breakpoints[this.state.responsiveId].multiplier;
       var marginHeight = responsiveUIMultiple * this.props.skinConfig.controlBar.height;
-      this.props.controller.publishOverlayRenderingEvent(marginHeight);
+      this.props.controller().publishOverlayRenderingEvent(marginHeight);
       this.overlayRenderingEventSent = true;
+    }
+  },
+
+  componentWillMount: function () {
+    if (typeof window === 'undefined' && this.state.screenToShow === null) {
+      this.setState(this.props.controller().state);
     }
   },
 
@@ -51,7 +57,7 @@ var Skin = React.createClass({
   },
 
   handleClickOutsidePlayer: function() {
-    this.props.controller.state.accessibilityControlsEnabled = false;
+    this.props.controller().state.accessibilityControlsEnabled = false;
   },
 
   switchComponent: function(args) {
@@ -178,7 +184,7 @@ var Skin = React.createClass({
               fullscreen={this.state.fullscreen}
               playerState={this.state.playerState}
               duration={this.state.duration}
-              adVideoDuration={this.props.controller.state.adVideoDuration}
+              adVideoDuration={this.props.controller().state.adVideoDuration}
               buffered={this.state.buffered}
               seeking={this.state.seeking}
               controlBarAutoHide={this.props.skinConfig.controlBar.autoHide}
@@ -254,7 +260,7 @@ var Skin = React.createClass({
         case CONSTANTS.SCREEN.ERROR_SCREEN:
           screen = (
             <ErrorScreen {...this.props}
-              errorCode={this.props.controller.state.errorCode} />
+              errorCode={this.props.controller().state.errorCode} />
           );
           break;
         default:
